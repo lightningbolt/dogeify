@@ -33,7 +33,7 @@ class Dogeify
     str = str.strip.gsub(/\s+/, " ").gsub(/[\:"\(\)\{\}]+/, " ").gsub("'", "")
     # Parse sentences.
     sentences = str.downcase.split(/[\.!?]+/).map(&:strip)
-    ignore = IGNORE_PATTERNS | (options[:ignore] || [])
+    ignore = IGNORE_PATTERNS | (Array(options[:ignore]) || [])
     sentences = sentences.map do |sentence|
       sentence = ignore_patterns(sentence, ignore)
       tagged_sentence = tagger.add_tags(sentence) || next
@@ -104,7 +104,12 @@ class Dogeify
   end
 
   def ignore_patterns(sentence, patterns)
-    sentence.scan(/['\-\w]+/).delete_if {|word| patterns.include?(word.downcase)}.join(" ")
+    string_patterns = patterns.find_all {|pattern| pattern.is_a?(String)}
+    regex_patterns = patterns.find_all {|pattern| pattern.is_a?(Regexp)}
+    string_replaced_sentence = sentence.scan(/['\-\w]+/).delete_if {|word| string_patterns.include?(word.downcase)}.join(" ")
+    string_replaced_sentence.tap do |string_replaced_sentence|
+      regex_patterns.map {|pattern| string_replaced_sentence.gsub!(pattern, '')}
+    end
   end
 
   def part_of_speech(tag)
