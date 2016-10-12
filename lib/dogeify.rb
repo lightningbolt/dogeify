@@ -2,14 +2,14 @@ require 'dogeify/version'
 require 'engtagger'
 
 class Dogeify
-  ADJECTIVES = %w[so such very much many how].freeze
-  ADJECTIVE_MAP = {:adjective => %w[such many],
-                   :singular_noun => %w[so such very much many how],
-                   :plural_noun => %w[so such very much many how],
-                   :infinitive_verb => %w[so such very much many how],
+  ADJECTIVES = %w{so such very much many how}.freeze
+  ADJECTIVE_MAP = {:adjective => %w{such many},
+                   :singular_noun => %w{so such very much many how},
+                   :plural_noun => %w{so such very much many how},
+                   :infinitive_verb => %w{so such very much many how},
                    :adverb => %w{such very much many how}}.freeze
-  EMOTIONS = %w[wow amaze excite].freeze
-  IGNORE_PATTERNS = %w[i im be do have] + ADJECTIVES + EMOTIONS
+  EMOTIONS = %w{wow amaze excite}.freeze
+  IGNORE_PATTERNS = %w{i im be do have} + ADJECTIVES + EMOTIONS
   TAGS = {:jj => :adjective,
     :jjr => :adjective,
     :jjs => :adjective,
